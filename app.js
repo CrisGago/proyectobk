@@ -15,6 +15,8 @@ import __dirname from "./src/utils/utilsConst.js";
 import productModel from "./src/models/productModel.js";
 import  passport   from "./src/config/passport.js";
 import authRoutes from "./src/routes/auth.js"
+import config from "./src/config/config.js";
+console.log(config);
 
 //import websocket from "./websocket.js";
 // import ProductManager from "./dao/CartManagerFS.js";

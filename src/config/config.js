@@ -1,14 +1,14 @@
-import config from "dotenv";
+import dotenv from "dotenv";
 import { Command } from "commander";
 
 const program = new Command();
-program.option('--mode <mode>', 'set the mode', 'develoment');
+program.option ('--mode <mode>', 'set the mode', 'develoment');
 program.parse();
 
 const options = program.opts();
 
 const env = options.mode;
-doteng.config({
+dotenv.config({
     path: env === 'production' ? './.env.prod' : './.env.dev'
 });
 
