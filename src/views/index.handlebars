@@ -1,0 +1,16 @@
+<div class="box">
+    <h1>Productos</h1>
+    <div class="products-box">
+        {{#each products}}
+        <!-- comienza un producto -->
+            <div class="product-card">
+                <h3>{{this.title}}</h3>
+                <hr>
+                <p>Categoria: {{this.category}}</p>
+                <p>Descripción: {{this.description}}</p>
+                <p>Precio: $ {{this.price}}</p>
+            </div>
+        <!-- Termina un producto -->    
+        {{/each}}
+    </div>
+</div>
