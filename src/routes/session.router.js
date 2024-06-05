@@ -1,9 +1,11 @@
 import { Router } from "express";
-import { userController } from "../controllers/userController.js";
+import  userController  from "../controllers/userController.js";
 import passport from "../config/passport.js";
+import UserDto from "../dto/userDto.js";
+
 
 const router = Router();
-const SessionService = new userController();
+//const SessionService = new userController();
 
 // Registro de usuario
 router.post('/register', async (req, res) => {
@@ -40,8 +42,10 @@ router.post('/login', async (req, res) => {
 
 // Ruta protegida para obtener el usuario actual
 router.get('/current', passport.authenticate("jwt", { session: false }), async (req, res) => {
+    const userDto = new UserDto(req.user);
     res.send({
-        user: req.user
+        status: 'success',
+        user: userDto
     });
 });
 
@@ -69,3 +73,4 @@ router.get('/:uid', passport.authenticate("jwt", { session: false }), (req, res,
 });
 
 export default router;
+

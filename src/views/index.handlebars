@@ -1,16 +1,38 @@
+<h1>HOLA MUNDO - SOLO PRODUCTOS</h1>
+{{!-- index.handlebars --}}
 <div class="box">
     <h1>Productos</h1>
+    
+    {{#if isValid}}
     <div class="products-box">
-        {{#each products}}
+        {{#each docs}} 
         <!-- comienza un producto -->
-            <div class="product-card">
-                <h3>{{this.title}}</h3>
-                <hr>
-                <p>Categoria: {{this.category}}</p>
-                <p>Descripción: {{this.description}}</p>
-                <p>Precio: $ {{this.price}}</p>
-            </div>
-        <!-- Termina un producto -->    
+        <div class="product-card">
+            <h3>{{this.title}}</h3>
+            <hr>
+            <p>Categoria: {{this.category}}</p>
+            <p>Descripción: {{this.description}}</p>
+            <p>Precio: $ {{this.price}}</p>
+        </div>
+        <!-- Termina un producto -->
         {{/each}}
     </div>
+    <hr>
+    <div>  
+        {{!-- class="pagination" --}}
+        {{#if hasPrevPage}}
+            <a href="{{this.prevLink}}"><< Anterior</a>
+        {{/if}}
+    </div>
+    <br>
+    <div>    
+        {{#if hasNextPage}}
+          <a href="{{this.nextLink}}">Siguiente</a>
+        {{/if}}  
+    </div>
+    {{/if}}
+    
 </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

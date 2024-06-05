@@ -1,20 +1,46 @@
+import { isValidPassword } from "../utils/cryptoUtil.js";
 import userModel from "../models/userModel.js";
 
+
+
 export default class UserDao {
-    async getAll(){
-        return await UserDao.find();
-    }
-    
-    async getByID(uid) {
-        const result = await UserDao.findeOne({_id : uid});
-
-        if (!result) throw new Error (`El Producto ${uid} no exste`);
-        
-        return result;
+    async getAllUsers() {
+        try {
+            const users = await userModel.find({}).populate('cart').populate('cart.products.product');
+            return users
+        } catch (error) {
+            throw error
+        }
     }
 
-    async crearte(User) {
-        const result = await UserDao.crearte(User);
-        return result;
+    async getUserByID(uid) {
+        try {
+            const result = await userModel.findOne({ _id: uid });
+
+            if (!result) throw new Error(`El Producto ${uid} no exste`);
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+
+    async register(user) {
+        try {
+            const result = await userModel.create(user);
+            return result;
+
+        } catch (error) {
+            throw error;
+        }
+    };
+    async getbyEmail(email) {
+        try{
+            const user = await userModel.findOne({ email });
+            return user;
+        }catch(error) {
+            throw error;
+        }
     }
+
 };

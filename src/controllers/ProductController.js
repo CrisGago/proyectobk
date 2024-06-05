@@ -1,6 +1,5 @@
 import ProductDao from "../dao/productDao.js";
-//import productModel from "../models/productModel.js";
-//import mongoose from 'mongoose';
+
 import mongoosePaginate from 'mongoose-paginate-v2';
 
 class ProductController {
@@ -28,7 +27,7 @@ class ProductController {
 
     async getProductById(pid) {
         try {
-            const product = await this.productDao.getByID(pid);
+            const product = await this.productDao.getProductById(pid);
             return product;
         } catch (error) {
             console.error("Error al obtener producto por ID:", error.message);
@@ -38,7 +37,7 @@ class ProductController {
 
     async addProduct(product) {
         try {
-            const result = await this.productDao.create(product);
+            const result = await this.productDao.addProduct(product);
             return result;
         } catch (error) {
             console.error(error.message);
@@ -58,7 +57,7 @@ class ProductController {
 
     async deleteProduct(pid) {
         try {
-            const result = await this.productDao.delete(pid);
+            const result = await this.productDao.deleteProduct(pid);
             return result;
         } catch (error) {
             console.error(error.message);

@@ -22,7 +22,7 @@ console.log(config);
 // import ProductManager from "./dao/CartManagerFS.js";
 // import CartManager from "./dao/ProductManagerFS.js";
 
-productModel.paginate = mongosePaginate;
+//productModel.paginate = mongosePaginate;
 
 const app = express();
 

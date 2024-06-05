@@ -1,5 +1,7 @@
-import mongoose from 'mongoose';
-import { createHash } from '../utils/cryptoUtil.js';
+import mongoose from "mongoose";
+import { createHash } from "../utils/cryptoUtil.js";
+import mongoosePaginate from "mongoose-paginate-v2";
+
 
 const userCollection = 'users';
 
@@ -55,6 +57,7 @@ userSchema.pre('save', function(next) {
     next();
 });
 
+userSchema.plugin(mongoosePaginate);
 const userModel = mongoose.model(userCollection, userSchema);
 
 export default userModel;

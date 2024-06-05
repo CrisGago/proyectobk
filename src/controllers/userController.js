@@ -6,14 +6,17 @@ import jwt from "jsonwebtoken";
 import userModel from '../models/userModel.js';
 import UserDao from "../dao/userDao.js";
 import { isValidPassword } from '../utils/cryptoUtil.js';
-
+import UserDto from "../dto/userDto.js";
+import SessionService from "../routes/session.router.js";
 
 
 class userController {
-
-    async getAll() {
+    
+    async getAllUsers() {
         try {
-            return await UserDao.find().lean();
+            const userDao = UserDao();
+            const users = await userDao.getAllUsers();
+            return users.map(user => new UserDto(user));
         } catch (error) {
             console.error(error.message);
             throw new Error('Error al traer los usuarios');
@@ -22,14 +25,16 @@ class userController {
 
     async getByID(uid) {
         try {
-            return await UserDao.findOne({ _id: uid }).lean();
+            const userDao = UserDao();
+            const user = await userDao.getByID(uid);
+            return new UserDto(user);
         } catch (error) {
             console.error(error.message);
             throw new Error('El usuario no existe');
         }
     }
 
-    async crearte(user) {
+    async register(user) {
         const { first_name, last_name, email, age, password } = user;
 
         if (!first_name || !last_name || !email || !age || !password) {
@@ -37,7 +42,8 @@ class userController {
         }
 
         try {
-            await UserDao.create({ first_name, last_name, email, age, password });
+            const userDao = UserDao();
+            await userDao.register({ first_name, last_name, email, age, password });
             return "El Usuario se ha registrado correctamente";
         } catch (error) {
             console.error('Error al registrar el usuario:', error.message);
@@ -52,13 +58,15 @@ class userController {
             throw new Error(errorMessage);
         }
         try {
-            const user = await UserDao.getbyEmail({ email }).lean();
+            const userDao = new UserDao();
+            const user = await userDao.getbyEmail({ email });
 
             if (!user) throw new Error(errorMessage);
 
             if (isValidPassword(user, password)) {
-                delete user.password;
-                return jwt.sign(user, "your_jwt_secrets", {expiresIn: "1h"});
+                const userDto = UserDto(user);
+                //delete user.password;
+                return jwt.sign(userDto, "your_jwt_secrets", {expiresIn: "1h"});
             }
             throw new Error(errorMessage);
         } catch (error) {
@@ -68,4 +76,4 @@ class userController {
     }
 }
 
-export { userController };
+export default new userController();

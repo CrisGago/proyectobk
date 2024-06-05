@@ -38,7 +38,7 @@ export default (io) => {
 socket.on("message", async (data) =>{
     try{
         await MessageBD.addMessages(data);
-        message.push({
+        MessageBD.push({
             socketId: socket.id,
             message: data
         });
