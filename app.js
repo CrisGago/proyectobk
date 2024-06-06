@@ -17,6 +17,8 @@ import  passport   from "./src/config/passport.js";
 import authRoutes from "./src/routes/auth.js"
 import config from "./src/config/config.js";
 console.log(config);
+import ticketRoutes from "./src/routes/ticketRoutes.js";
+
 
 //import websocket from "./websocket.js";
 // import ProductManager from "./dao/CartManagerFS.js";
@@ -75,6 +77,8 @@ app.use("/api/session", sessionRouter);
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", viewsRouter);
 app.use("/", viewsRouter);
+app.use("/api/ticket", ticketRoutes);
+app.use('/api', ticketRoutes);
 
 
 //Local connection 
