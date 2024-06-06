@@ -1,11 +1,11 @@
 import { Router } from "express";
-import  userController  from "../controllers/userController.js";
+import  UserController   from "../controllers/userController.js";
 import passport from "../config/passport.js";
 import UserDto from "../dto/userDto.js";
 
 
 const router = Router();
-//const SessionService = new userController();
+const SessionService = new UserController();
 
 // Registro de usuario
 router.post('/register', async (req, res) => {

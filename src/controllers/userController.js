@@ -1,20 +1,14 @@
-// 
 // userController.js
 import jwt from "jsonwebtoken";
-
-
 import userModel from '../models/userModel.js';
 import UserDao from "../dao/userDao.js";
 import { isValidPassword } from '../utils/cryptoUtil.js';
 import UserDto from "../dto/userDto.js";
-import SessionService from "../routes/session.router.js";
 
-
-class userController {
-    
+class UserController {
     async getAllUsers() {
         try {
-            const userDao = UserDao();
+            const userDao = new UserDao();
             const users = await userDao.getAllUsers();
             return users.map(user => new UserDto(user));
         } catch (error) {
@@ -25,7 +19,7 @@ class userController {
 
     async getByID(uid) {
         try {
-            const userDao = UserDao();
+            const userDao = new UserDao();
             const user = await userDao.getByID(uid);
             return new UserDto(user);
         } catch (error) {
@@ -42,7 +36,7 @@ class userController {
         }
 
         try {
-            const userDao = UserDao();
+            const userDao = new UserDao();
             await userDao.register({ first_name, last_name, email, age, password });
             return "El Usuario se ha registrado correctamente";
         } catch (error) {
@@ -59,14 +53,13 @@ class userController {
         }
         try {
             const userDao = new UserDao();
-            const user = await userDao.getbyEmail({ email });
+            const user = await userDao.getByEmail(email);
 
             if (!user) throw new Error(errorMessage);
 
             if (isValidPassword(user, password)) {
-                const userDto = UserDto(user);
-                //delete user.password;
-                return jwt.sign(userDto, "your_jwt_secrets", {expiresIn: "1h"});
+                const userDto = new UserDto(user);
+                return jwt.sign({ user: userDto }, "your_jwt_secret", { expiresIn: "1h" });
             }
             throw new Error(errorMessage);
         } catch (error) {
@@ -76,4 +69,4 @@ class userController {
     }
 }
 
-export default new userController();
+export default UserController;

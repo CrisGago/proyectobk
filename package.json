@@ -2,7 +2,6 @@
   "name": "proyectobk",
   "type": "module",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "nodemon src/app.js",
@@ -30,5 +29,6 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "socket.io": "^4.7.5"
-  }
+  },
+  "description": ""
 }
