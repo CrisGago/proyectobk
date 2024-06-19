@@ -27,7 +27,7 @@ socket.on('publishProducts', data => {
     $('.products-box').innerHTML = html;
 });
 
-function addProduct(event) {
+function createProduct(event) {
     event.preventDefault();
     const newProduct = {
         title: $('#title').value,

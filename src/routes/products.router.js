@@ -1,8 +1,8 @@
-import { Router } from 'express';
+import { Router } from "express";
 //import ProductManagerFS from "../dao/ProductManagerFS.js";
-import { ProductController } from "../controllers/ProductController.js";
-import productModel from '../models/productModel.js';
+import   ProductController  from "../controllers/ProductController.js";
 import { uploader } from "../utils/multerUtil.js";
+import productModel from "../models/productModel.js";
 
 const router = Router();
 
@@ -12,22 +12,12 @@ const productManager = new ProductController();
 
 router.get("/", async (req, res) => {
     try {
-        // Obtener parámetros de consulta
-        let {page = 3} = parseInt(req.query);
-       
-        // Obtener productos paginados
-        const result = await productManager.getAllProducts(page);
-        console.log(result);
-
-        const baseURL = "http://localhost:8080/";
-        result.title= "CoderHouse";
-        result.style= "index.css";
-        result.prevLink = result.hasPrevPage ? `${baseURL}?page=${result.PrevPage}` : "";
-        result.nextLink = result.hasNextPage ? `${baseURL}?page=${result.nextPage}` : "";
-        result.isValid = !(page <= 0 || page > result.totalPages);
-
-        res.render("index", result);
-
+      let {limit = 10, page = 1, query = {}, sort = null } = req.query;
+      const result = await productManager.paginate(limit, page, query, sort);
+      res.send({
+        status: "success",
+        payload: result
+      });
     } catch (error) {
         console.error("Error al traer los productos:", error.message);
         res.status(500).send({ error: "Error al traer los productos" });
@@ -60,7 +50,7 @@ router.post('/', uploader.array('thumbnails', 3), async (req, res) => {
     }
 
     try {
-        const result = await productManager.addProduct(req.body);
+        const result = await productManager.createProduct(req.body);
         res.send({
             status: 'success',
             payload: result

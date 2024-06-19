@@ -1,5 +1,5 @@
 //import { productManagerFS } from "./dao/ProductManagerFS.js";
-import { ProductController } from "./src/controllers/ProductController.js";
+import  ProductController  from "./src/controllers/ProductController.js";
 import { MessageController } from "./src/controllers/messageController.js";
 //import  addMessages  from "socket.io";
 //import  getMessages   from "./dao/messageManager.js";
@@ -15,7 +15,7 @@ export default (io) => {
 
         socket.on("crearProduct", async (data) =>{
             try{
-                await ProductBD.addProduct(data);
+                await ProductBD.createProduct(data);
                 const products = await ProductBD.getAllProducts();
                 io.emit("publishProducts", products);
             }catch(error) {

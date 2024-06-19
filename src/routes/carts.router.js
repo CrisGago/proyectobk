@@ -1,7 +1,7 @@
 import { Router } from "express";
 //import CartManager from "../dao/CartManagerFS.js";
 import { CartController } from "../controllers/CartController.js";
-import { ProductController } from "../controllers/ProductController.js";
+import  ProductController  from "../controllers/ProductController.js";
 import { uploader } from "../utils/multerUtil.js";
 
 const router = Router();

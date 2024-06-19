@@ -1,6 +1,7 @@
 import { Router } from 'express';
 //import { ProductManagerFS } from '../dao/ProductManagerFS.js';
-import { ProductController } from "../controllers/ProductController.js";
+import  ProductController  from "../controllers/ProductController.js";
+import { uploader } from '../utils/multerUtil.js';
 import productModel from '../models/productModel.js';
 import { MessageController } from '../controllers/messageController.js';
 
@@ -11,7 +12,7 @@ const router = Router();
 //const productManager = new ProductManagerFS('products.json');
 const productManager = new ProductController();
 const messageManager  = new MessageController();
-const nessage = [];
+const messages = [];
 
 //prueba paginado desde aqui
 router.get("/", async (req, res) => {
@@ -20,11 +21,11 @@ router.get("/", async (req, res) => {
         let {page = 1} = parseInt(req.query.page);
        
         // Obtener productos paginados
-        const result = await productModel.paginate({}, {page, limit: 5, lean: true});
+        const result = await productModel.paginate({}, {page, limit: 10, lean: true});
         console.log(result);
 
         const baseURL = "http://localhost:8080";
-        result.title= "CoderHouse";
+        result.title= "CoderHousePr";
         result.style= "index.css";
         result.prevLink = result.hasPrevPage ? `${baseURL}?page=${result.PrevPage}` : "";
         result.nextLink = result.hasNextPage ? `${baseURL}?page=${result.nextPage}` : "";

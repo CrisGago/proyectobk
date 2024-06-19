@@ -18,6 +18,9 @@ import authRoutes from "./src/routes/auth.js"
 import config from "./src/config/config.js";
 console.log(config);
 import ticketRoutes from "./src/routes/ticketRoutes.js";
+import logger from "./src/utils/logger.js";
+import loggerTestRouter from "./src/routes/LoggerTestRouter.js";
+import errorHandler from "./src/middlewares/errorHandler.js";
 
 
 //import websocket from "./websocket.js";
@@ -43,6 +46,7 @@ const conexion = async() =>{
 }
 conexion();
 
+
 //handlebars
 app.engine('handlebars', handlebars.engine({
     runtimeOptions: {
@@ -58,6 +62,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(cookieParser());
+app.use(errorHandler);
+
+app.use('/loggerTest', loggerTestRouter);
 
 //passaport
 //passport();

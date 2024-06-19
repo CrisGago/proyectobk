@@ -1,22 +1,17 @@
+import ProductRepository from "../repository/productRepository.js";
 import ProductDto from "../dto/productDto.js";
 
-class ProductServices {
+export default class ProductServices {
 
     constructor() {
-        this.productDto = new ProductDto();
+        this.productRepository = new ProductRepository();
     }
 
-    async getAllProducts(page = 1, limit = 10, sort = 'asc', query = '') {
+    async getAllProducts(limit, page, query, sort) {
         try {
-            const startIndex = (page - 1) * limit;
-            const filter = query ? { $or: [{ category: query }, { availability: query }] } : {};
-            const options = {
-                skip: startIndex,
-                limit: limit,
-                sort: sort ? { price: sort } : null
-            };
-            const products = await this.productDto.getAllProducts();
-            return products;
+            const options = {page: page ?? 1, limit: limit ?? 100, sort, lean: true};
+            return await this.productRepository.getAllProducts(query ?? {}, options);
+            
         } catch (error) {
             console.error("Error al buscar los productos:", error.message);
             throw new Error("Error al buscar los productos");
@@ -25,7 +20,7 @@ class ProductServices {
 
     async getProductById(pid) {
         try {
-            const product = await this.productDto.getProductById(pid);
+            const product = await this.productRepository.getProductById(pid);
             return product;
         } catch (error) {
             console.error("Error al obtener producto por ID:", error.message);
@@ -33,9 +28,9 @@ class ProductServices {
         }
     }
 
-    async addProduct(product) {
+    async createProduct(product) {
         try {
-            const result = await this.productDto.addProduct(product);
+            const result = await this.productRepository.createProduct(product);
             return result;
         } catch (error) {
             console.error(error.message);
@@ -45,7 +40,7 @@ class ProductServices {
 
     async updateProduct(pid, updateFields) {
         try {
-            const result = await this.productDto.update(pid, updateFields);
+            const result = await this.productRepository.update(pid, updateFields);
             return result;
         } catch (error) {
             console.error("Error al actualizar el producto:", error.message);
@@ -55,7 +50,7 @@ class ProductServices {
 
     async deleteProduct(pid) {
         try {
-            const result = await this.productDto.deleteProduct(pid);
+            const result = await this.productRepository.deleteProduct(pid);
             return result;
         } catch (error) {
             console.error(error.message);
@@ -65,4 +60,3 @@ class ProductServices {
 
 };
 
-export { ProductService };
