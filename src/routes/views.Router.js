@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router } from "express";
 //import { ProductManagerFS } from '../dao/ProductManagerFS.js';
 import  ProductController  from "../controllers/ProductController.js";
 import { uploader } from '../utils/multerUtil.js';
@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
         console.log(result);
 
         const baseURL = "http://localhost:8080";
-        result.title= "CoderHousePr";
+        result.title= "CoderHouse";
         result.style= "index.css";
         result.prevLink = result.hasPrevPage ? `${baseURL}?page=${result.PrevPage}` : "";
         result.nextLink = result.hasNextPage ? `${baseURL}?page=${result.nextPage}` : "";

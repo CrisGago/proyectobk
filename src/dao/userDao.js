@@ -35,7 +35,7 @@ export default class UserDao {
             throw error;
         }
     };
-    async getbyEmail(email) {
+    async getByEmail(email) {
         try{
             const user = await userModel.findOne({ email });
             return user;

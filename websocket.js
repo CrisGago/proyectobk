@@ -1,3 +1,5 @@
+//websocket.js
+
 //import { productManagerFS } from "./dao/ProductManagerFS.js";
 import  ProductController  from "./src/controllers/ProductController.js";
 import { MessageController } from "./src/controllers/messageController.js";
@@ -68,4 +70,5 @@ socket.on("userConnect", async (user) => {
     io.emit("newUser", user);
 })
 });
+
 };

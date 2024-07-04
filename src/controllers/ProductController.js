@@ -1,4 +1,5 @@
 import ProductServices from "../services/productService.js";
+import ProductDao from "../dao/productDao.js";
 import productDto from "../dto/productDto.js";
 
 import mongoosePaginate from 'mongoose-paginate-v2';
@@ -17,6 +18,7 @@ export default class ProductController {
             throw new Error("Error al buscar los productos");
         }
     };
+    
 
     async getProductById(pid) {
         try {

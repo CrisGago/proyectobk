@@ -1,5 +1,6 @@
 // sessionService.js
 import UserModel from '../models/userModel.js'; 
+import ProductDto from "../dto/userDto.js";
 import bcrypt from 'bcrypt'; 
 
 class SessionService {

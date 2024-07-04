@@ -8,15 +8,16 @@ class ProductRepository {
 
     async getAllProducts(page = 1, limit = 10, sort = 'asc', query = '') {
         try {
-            
+            return await this.productDao.getAll(query ?? {}, );
             const startIndex = (page - 1) * limit;
             const filter = query ? { $or: [{ category: query }, { availability: query }] } : {};
             const options = {
                 skip: startIndex,
                 limit: limit,
-                sort: sort ? { price: sort } : null
+                sort: sort ? { price: sort } : null,
+                lean: true
             }
-            return await this.productDao.getAll(query ?? {}, );
+           
           
         } catch (error) {
             console.error("Error al buscar los productos:", error.message);
@@ -38,8 +39,8 @@ class ProductRepository {
     
 
     async createProduct (product) {
-        const productDao = new ProductDao(product);
-        const { title, description, code, price, stock, category, thumbnails } = product;
+        const newproduct = new ProductDto(product);
+        const { title, description, code, price, stock, category, thumbnails } = newproduct;
 
         if (!title || !description || !code || !price || !stock || !category) {
             throw new Error('Error al crear el producto');

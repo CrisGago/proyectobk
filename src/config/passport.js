@@ -1,6 +1,7 @@
 // config/passport.js
 import passport from "passport";
 import jwt, { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+//import GitHubStrategy from "pass"
 import userModel from "../models/userModel.js";
 
 // Función para extraer el token JWT de las cookies

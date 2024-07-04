@@ -1,6 +1,8 @@
 import express from "express";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
+import  session  from "express-session";
+//import mongoStore from "connect-mongo";
 import mongoose from "mongoose";
 import mongosePaginate from "mongoose-paginate-v2";
 import websocket from "./websocket.js";
@@ -14,7 +16,7 @@ import viewsRouter from "./src/routes/views.Router.js";
 import __dirname from "./src/utils/utilsConst.js";
 import productModel from "./src/models/productModel.js";
 import  passport   from "./src/config/passport.js";
-import authRoutes from "./src/routes/auth.js"
+import authRoutes from "./src/routes/auth.js";
 import config from "./src/config/config.js";
 console.log(config);
 import ticketRoutes from "./src/routes/ticketRoutes.js";
@@ -55,6 +57,7 @@ app.engine('handlebars', handlebars.engine({
     }
 }));
 app.set('views', __dirname + '/../views');
+app.set('views', `${__dirname}/../views`);
 app.set('view engine', 'handlebars');
 
 //Middlewares
@@ -68,6 +71,7 @@ app.use('/loggerTest', loggerTestRouter);
 
 //passaport
 //passport();
+
 app.use(passport.initialize());
 
 
@@ -80,12 +84,14 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/messages", viewsRouter)
 app.use("/products", viewsRouter);
 app.use("/carts", viewsRouter);
+app.use("/", viewsRouter);
 app.use("/api/session", sessionRouter);
+app.use("/", sessionRouter);
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", viewsRouter);
-app.use("/", viewsRouter);
-app.use("/api/ticket", ticketRoutes);
-app.use('/api', ticketRoutes);
+
+//app.use("/api/ticket", ticketRoutes);
+//app.use('/api', ticketRoutes);
 
 
 //Local connection 

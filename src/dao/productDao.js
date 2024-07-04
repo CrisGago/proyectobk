@@ -1,12 +1,16 @@
-import productModel from '../models/productModel.js';
+import productModel from "../models/productModel.js";
 
-export default class ProductDao {
+//const productDao = new ProductDao();
+
+class ProductDao {
+    constructor() {
+        this.producModel = productModel();
+    }
+
 
     async getAll(query, options) {
         try {
-            //return await productModel.paginate(query, options);
-            const product = await productModel.getAll(query, options);
-            return product;
+            return await productModel.paginate(query, options);
 
         } catch (error) {
             console.error("Error al buscar los productos:", error.message);
@@ -16,7 +20,7 @@ export default class ProductDao {
 
     async getById(pid) {
         try {
-            const product = await productModel.getById({ _id: pid });
+            await productModel.findOne({ _id: pid });
             if (!product)
                 throw new Error(`El producto ${pid} no existe!`);
             return product;
@@ -56,4 +60,57 @@ export default class ProductDao {
         }
     }
 };
+
+export default ProductDao;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// //const productDao = new ProductDao();
+
+// class ProductDao{
+
+//     async getAll (query, options) {
+//         return await productModel.paginate(query, options);
+//     }
+
+//     async getById (pid){
+//         return await productModel.findOne({_id: pid});
+//     }
+
+//     async create(product) {
+//         return await productModel.create(product);
+//     }
+//     async update(pid, updateFields) {
+//         return await productModel.updateOne({ _id: pid }, updateFields);
+//     }
+//     async delete(pid) {
+//         return await productModel.deleteOne({ _id: pid });
+//     }
+
+// }
+// export default ProductDao;
 

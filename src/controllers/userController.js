@@ -37,7 +37,13 @@ class UserController {
 
         try {
             const userDao = new UserDao();
-            await userDao.register({ first_name, last_name, email, age, password });
+            const existingUser = await userDao.getByEmail(email);
+            
+            if (existingUser) {
+                throw new Error ('El mail ya está registrado.');
+            }
+
+            await userDao.register({ first_name, last_name, email, age, password });            
             return "El Usuario se ha registrado correctamente";
         } catch (error) {
             console.error('Error al registrar el usuario:', error.message);

@@ -45,5 +45,5 @@ class TicketController {
   }
 }
 
-export default TicketController;
+export default new TicketController();
 
