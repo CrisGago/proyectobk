@@ -40,14 +40,14 @@ class ProductRepository {
 
     async createProduct (product) {
         const newproduct = new ProductDto(product);
-        const { title, description, code, price, stock, category, thumbnails } = newproduct;
+        const { title, description, code, price, stock, category, owner, thumbnails } = newproduct;
 
-        if (!title || !description || !code || !price || !stock || !category) {
+        if (!title || !description || !code || !price || !stock || !category || !owner) {
             throw new Error('Error al crear el producto');
         }
 
         try {
-            const result = await this.productDao.create({ title, description, code, price, stock, category, thumbnails: thumbnails ?? [] });
+            const result = await this.productDao.create({ title, description, code, price, stock, category, owner, thumbnails: thumbnails ?? [] });
             return result;
         } catch (error) {
             console.error(error.message);

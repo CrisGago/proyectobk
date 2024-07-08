@@ -32,6 +32,15 @@ const userSchema = new mongoose.Schema({
         minLength: 5,
         required: true
     },
+
+    
+    role: {
+        type: String,
+        required: true,
+        enum: ['admin', 'premium', 'user'],
+        default: 'user'
+    },
+
     cart: {
         type: [
             {
@@ -42,13 +51,7 @@ const userSchema = new mongoose.Schema({
             }
         ],
         default: []
-    },
-    role: {
-        type: String,
-        required: true,
-        enum: ['admin', 'premium', 'user'],
-        default: 'user'
-    },
+}
 });
 
 userSchema.pre('save', function(next) {

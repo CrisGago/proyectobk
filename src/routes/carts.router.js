@@ -3,6 +3,7 @@ import { Router } from "express";
 import { CartController } from "../controllers/CartController.js";
 import  ProductController  from "../controllers/ProductController.js";
 import { uploader } from "../utils/multerUtil.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 const router = Router();
 //const manager = new CartManager('./src/carrito.json');
@@ -57,7 +58,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
     }
 });
 
-router.put('/:cid/products/:pid', async (req, res) => {
+router.put('/:cid/products/:pid', verifyToken, async (req, res) => {
     try {
         const { cid, pid } = req.params;
 
@@ -71,7 +72,15 @@ router.put('/:cid/products/:pid', async (req, res) => {
         // Llama a la función para actualizar la cantidad del producto en el carrito
         const cart = await cartManager.updateProductQuantity(cid, pid, quantity);
 
+        const email = req.user.email;
+        let proceeCartUpdate = true;
+
+        if (req.user.role === 'premium') proceeCartUpdate = !await checkCart(pid, email);
+
+        if (proceeCartUpdate) {
+
         res.status(cart.code).json({ status: cart.status });
+        }    
     } catch (error) {
         res.status(500).json({ error: `Ocurrió un error en el servidor: ${error}` });
     }

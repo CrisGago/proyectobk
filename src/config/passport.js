@@ -3,6 +3,7 @@ import passport from "passport";
 import jwt, { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 //import GitHubStrategy from "pass"
 import userModel from "../models/userModel.js";
+import config from "../config/config.js";
 
 // Función para extraer el token JWT de las cookies
 const cookieExtractor = (req) => {
@@ -15,7 +16,8 @@ const cookieExtractor = (req) => {
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'your_jwt_secret' // Debe ser una clave secreta segura
+    secretOrKey: config.jwt_secret,//'your_jwt_secret' usa la clave secreta desde el archivo de configuración
+    passReqToCallback: true
 };
 
 passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {

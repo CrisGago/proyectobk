@@ -30,13 +30,13 @@ const productSchema = mongoose.Schema({
         type: Number,
         require: true
     },
-    owner: {
-        type: String,
-        default: 'admin' 
-    },
     category: {
         type: String,
         require: true
+    },
+    owner: {
+        type: String,
+        default: 'admin'
     },
     thumbnails: {
         type: Array,

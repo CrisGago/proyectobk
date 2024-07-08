@@ -2,10 +2,28 @@ import { Router } from "express";
 import  UserController   from "../controllers/userController.js";
 import passport from "../config/passport.js";
 import UserDto from "../dto/userDto.js";
-
+import { verifyToken } from "../middlewares/verifyToken.js";
+import { handlePolices } from "../utils/authUtil.js";
+import { config } from "dotenv";
 
 const router = Router();
 const SessionService = new UserController();
+
+//usuario premium 3er entrega rol
+
+router.get('/premium/:uid', verifyToken, handlePolices(['admin']), async (req, res) =>{
+    try{
+        const uid = req.params.uid;
+        const user = await UserController.getByID(uid);
+        user.role = user.role === 'premium' ? 'user'  : 'premium';
+        const update = await UserController.update({_id: uid}, user, {new: true});
+
+        res.status(200).send({ origin: config.SERVER, payload: update });
+    } catch (err) {
+        res.status(500).send({ origin: config.SERVER, payload: null, error: err.message });
+    }
+});
+
 
 // Registro de usuario
 router.post('/register', async (req, res) => {

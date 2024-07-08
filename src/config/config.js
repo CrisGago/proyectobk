@@ -1,3 +1,4 @@
+//config/config.js
 import dotenv from "dotenv";
 import { Command } from "commander";
 
@@ -19,7 +20,8 @@ export default {
     port: process.env.PORT,
     mong_url: process.env.MONGO_URL,
     admin_name: process.env.ADMIN_NAME,
-    admin_pass: process.env.ADMIN_PASS
+    admin_pass: process.env.ADMIN_PASS,
+    jwt_secret: process.env.JWT_SECRET
 }
 console.log('Options: ', program.opts());
 console.log('Remainig Arguments: ', program.args);
