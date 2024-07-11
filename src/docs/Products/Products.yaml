@@ -1,18 +1,18 @@
 openapi: 3.0.0
 info:
-  title: User API
-  description: API para la gestión de usuarios
+  title: Product API
+  description: API para la gestión de productos
   version: 1.0.0
 servers:
-  - url: http://localhost:8080/api/users/
+  - url: http://localhost:8080
     description: Servidor local
 
 paths:
-  /api/users:
+  /products:
     get:
-      summary: Obtener todos los usuarios
+      summary: Obtener todos los productos
       tags:
-        - Users
+        - Products
       parameters:
         - name: page
           in: query
@@ -27,37 +27,37 @@ paths:
           schema:
             type: integer
             default: 10
-            description: Cantidad de usuarios por página
+            description: Cantidad de productos por página
       responses:
         '200':
-          description: Lista de usuarios
+          description: Lista de productos
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
+                  $ref: '#/components/schemas/Product'
         '500':
-          description: Error al traer los usuarios
+          description: Error al traer los productos
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
 
     post:
-      summary: Crear un nuevo usuario
+      summary: Crear un nuevo producto
       tags:
-        - Users
+        - Products
       requestBody:
-        description: Datos del nuevo usuario
+        description: Datos del nuevo producto
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewUser'
+              $ref: '#/components/schemas/NewProduct'
       responses:
         '201':
-          description: Usuario creado correctamente
+          description: Producto creado correctamente
         '400':
           description: Datos faltantes o inválidos
           content:
@@ -65,65 +65,65 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '500':
-          description: Error al crear el usuario
+          description: Error al crear el producto
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /api/users/{id}:
+  /products/{id}:
     get:
-      summary: Obtener usuario por ID
+      summary: Obtener producto por ID
       tags:
-        - Users
+        - Products
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: ID del usuario
+          description: ID del producto
       responses:
         '200':
-          description: Usuario encontrado
+          description: Producto encontrado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Product'
         '404':
-          description: El usuario no existe
+          description: El producto no existe
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         '500':
-          description: Error al traer el usuario
+          description: Error al traer el producto
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
 
     put:
-      summary: Actualizar un usuario
+      summary: Actualizar un producto
       tags:
-        - Users
+        - Products
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: ID del usuario
+          description: ID del producto
       requestBody:
-        description: Datos actualizados del usuario
+        description: Datos actualizados del producto
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewUser'
+              $ref: '#/components/schemas/NewProduct'
       responses:
         '200':
-          description: Usuario actualizado correctamente
+          description: Producto actualizado correctamente
         '400':
           description: Datos faltantes o inválidos
           content:
@@ -131,40 +131,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '404':
-          description: El usuario no existe
+          description: El producto no existe
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         '500':
-          description: Error al actualizar el usuario
+          description: Error al actualizar el producto
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
 
     delete:
-      summary: Eliminar un usuario
+      summary: Eliminar un producto
       tags:
-        - Users
+        - Products
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: ID del usuario
+          description: ID del producto
       responses:
         '200':
-          description: Usuario eliminado correctamente
+          description: Producto eliminado correctamente
         '404':
-          description: El usuario no existe
+          description: El producto no existe
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         '500':
-          description: Error al eliminar el usuario
+          description: Error al eliminar el producto
           content:
             application/json:
               schema:
@@ -172,77 +172,73 @@ paths:
 
 components:
   schemas:
-    User:
+    Product:
       type: object
       properties:
         id:
           type: string
-        first_name:
+        title:
           type: string
-        last_name:
+        description:
           type: string
-        email:
+        code:
           type: string
-        age:
+        price:
           type: number
-        password:
+        status:
+          type: boolean
+          default: true
+        stock:
+          type: number
+        category:
           type: string
-        role:
+        owner:
           type: string
-          enum:
-            - admin
-            - premium
-            - user
-          default: user
-        cart:
+          default: 'admin'
+        thumbnails:
           type: array
           items:
-            type: object
-            properties:
-              cart:
-                type: string
-                description: ID del carrito
+            type: string
       required:
-        - first_name
-        - last_name
-        - email
-        - age
-        - password
+        - title
+        - description
+        - code
+        - price
+        - stock
+        - category
 
-    NewUser:
+    NewProduct:
       type: object
       properties:
-        first_name:
+        title:
           type: string
-        last_name:
+        description:
           type: string
-        email:
+        code:
           type: string
-        age:
+        price:
           type: number
-        password:
+        status:
+          type: boolean
+          default: true
+        stock:
+          type: number
+        category:
           type: string
-        role:
+        owner:
           type: string
-          enum:
-            - admin
-            - premium
-            - user
-          default: user
-        cart:
+          default: 'admin'
+        thumbnails:
           type: array
           items:
-            type: object
-            properties:
-              cart:
-                type: string
-                description: ID del carrito
+            type: string
       required:
-        - first_name
-        - last_name
-        - email
-        - age
-        - password
+        - title
+        - description
+        - code
+        - price
+        - stock
+        - category
 
     Error:
       type: object
