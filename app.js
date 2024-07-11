@@ -1,12 +1,15 @@
 import express from "express";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
+import path from "path";
 import  session  from "express-session";
 //import mongoStore from "connect-mongo";
 import mongoose from "mongoose";
 import mongosePaginate from "mongoose-paginate-v2";
 import websocket from "./websocket.js";
 import cookieParser from "cookie-parser";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 
 
 import productsRouter from "./src/routes/products.router.js";
@@ -60,10 +63,12 @@ app.set('views', __dirname + '/../views');
 app.set('views', `${__dirname}/../views`);
 app.set('view engine', 'handlebars');
 
+
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(errorHandler);
 
@@ -92,6 +97,18 @@ app.use("/api/messages", viewsRouter);
 
 //app.use("/api/ticket", ticketRoutes);
 //app.use('/api', ticketRoutes);
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentación sistema AdoptMe',
+            description: 'Esta documentación cubre toda la API habilitada para AdoptMe',
+        },
+    },
+    apis: ['./src/docs/**/*.yaml'], // todos los archivos de configuración de rutas estarán aquí
+};
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 
 //Local connection 

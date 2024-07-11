@@ -90,5 +90,15 @@ router.get('/:uid', passport.authenticate("jwt", { session: false }), (req, res,
     }
 });
 
+// Ruta para mostrar el usuario
+router.get('/user/:uid', async (req, res) => {
+    try {
+        const user = await SessionService.getByID(req.params.uid).populate('cart.cart').exec();
+        res.render('user', { user });
+    } catch (error) {
+        res.status(500).send('Error al obtener el usuario');
+    }
+});
+
 export default router;
 

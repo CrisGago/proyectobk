@@ -1,32 +1,33 @@
-<div class="box">
-    <h1>Register</h1>
-    <hr>
-
-    <form class="box" method="post" action="/api/session/register">
-        <label for="first_name">First Name</label>
-        <input type="text" name="first_name" id="first_name">
-
-        <label for="last_name">Last Name</label>
-        <input type="text" name="last_name" id="last_name">
-
-        <label for="email">Email</label>
-        <input type="text" name="email" id="email">
-
-        <label for="age">Age</label>
-        <input type="number" name="age" id="age">
-
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
-
-        <button type="submit">Register</button>
-    </form>
-    <br>
-    <span><a href="/login" target="_self">Login</a></span>
-</div>
-
-{{#if failRegister}}
-    <script type="text/javascript">
-        alert('Register Failed!');
-    </script>
-{{/if}}    
-<script src="/js/index.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario</title>
+    <link rel="stylesheet" href="/css/user.css">
+</head>
+<body>
+    <div class="user-container">
+        <h1>Datos del Usuario</h1>
+        <div class="user-details">
+            <p><b>Nombre:</b> {{user.first_name}}</p>
+            <p><b>Apellido:</b> {{user.last_name}}</p>
+            <p><b>Email:</b> {{user.email}}</p>
+            <p><b>Edad:</b> {{user.age}}</p>
+            <p><b>Rol:</b> {{user.role}}</p>
+        </div>
+        {{#if user.cart.length}}
+        <div class="user-cart">
+            <h2>Carrito</h2>
+            <ul>
+                {{#each user.cart}}
+                <li>ID de Carrito: {{this.cart}}</li>
+                {{/each}}
+            </ul>
+        </div>
+        {{else}}
+        <p>No hay items en el carrito</p>
+        {{/if}}
+    </div>
+</body>
+</html>
